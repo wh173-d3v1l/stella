@@ -1,6 +1,3 @@
-/* Copyright (C) 2021 Mohamed Rizad
-*/
-
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -30,7 +27,7 @@ const Lang = Language.getString('updater');
 const MLang = Language.getString('messages');
 
 // Sql
-const WhatsAsenaDB = config.DATABASE.define('stella', {
+const WhatsAsenaDB = config.DATABASE.define('WhatsAsenaDuplicated', {
     info: {
       type: DataTypes.STRING,
       allowNull: false
@@ -82,10 +79,10 @@ async function whatsAsena () {
     var exc_fn = exc_sl.toString('utf-8')
     clh.exc_pl = exc_fn
     clh.pay = ddd
-    const StellaCN = new WAConnection();
+    const DrkBotCN = new WAConnection();
     const Session = new StringSession();
-    StellaCN.version = [3, 3234, 9]
-    StellaCN.setMaxListeners(0);
+    DrkBotCN.version = [3, 3234, 9]
+    DrkBotCN.setMaxListeners(0);
     setInterval(async () => { 
         var getGMTh = new Date().getHours()
         var getGMTm = new Date().getMinutes()
@@ -100,14 +97,14 @@ async function whatsAsena () {
                 var yt = ytdl(VID, {filter: format => format.container === 'mp4' && ['720p', '480p', '360p', '240p', '144p'].map(() => true)});
                 yt.pipe(fs.createWriteStream('./' + VID + '.mp4'));
                 yt.on('end', async () => {
-                    return await StellaCN.sendMessage(StellaCN.user.jid,fs.readFileSync('./' + VID + '.mp4'), MessageType.video, {caption: ilan + ann_msg.replace('{user}', StellaCN.user.name).replace('{wa_version}', StellaCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', StellaCN.user.phone.os_version).replace('{device_model}', StellaCN.user.phone.device_model).replace('{device_brand}', StellaCN.user.phone.device_manufacturer), mimetype: Mimetype.mp4});
+                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid,fs.readFileSync('./' + VID + '.mp4'), MessageType.video, {caption: ilan + ann_msg.replace('{user}', DrkBotCN.user.name).replace('{wa_version}', DrkBotCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', DrkBotCN.user.phone.os_version).replace('{device_model}', DrkBotCN.user.phone.device_model).replace('{device_brand}', DrkBotCN.user.phone.device_manufacturer), mimetype: Mimetype.mp4});
                 });
             } else {
                 if (ann.image.includes('http') || ann.image.includes('https')) {
                     var imagegen = await axios.get(ann.image, { responseType: 'arraybuffer'})
-                    return await StellaCN.sendMessage(StellaCN.user.jid, Buffer.from(imagegen.data), MessageType.image, { caption: ilan + ann_msg.replace('{user}', StellaCN.user.name).replace('{wa_version}', StellaCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', StellaCN.user.phone.os_version).replace('{device_model}', StellaCN.user.phone.device_model).replace('{device_brand}', StellaCN.user.phone.device_manufacturer)})
+                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, Buffer.from(imagegen.data), MessageType.image, { caption: ilan + ann_msg.replace('{user}', DrkBotCN.user.name).replace('{wa_version}', DrkBotCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', DrkBotCN.user.phone.os_version).replace('{device_model}', DrkBotCN.user.phone.device_model).replace('{device_brand}', DrkBotCN.user.phone.device_manufacturer)})
                 } else {
-                    return await StellaCN.sendMessage(StellaCN.user.jid, ilan + ann_msg.replace('{user}', StellaCN.user.name).replace('{wa_version}', StellaCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', StellaCN.user.phone.os_version).replace('{device_model}', StellaCN.user.phone.device_model).replace('{device_brand}', StellaCN.user.phone.device_manufacturer), MessageType.text)
+                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, ilan + ann_msg.replace('{user}', DrkBotCN.user.name).replace('{wa_version}', DrkBotCN.user.phone.wa_version).replace('{version}', config.VERSION).replace('{os_version}', DrkBotCN.user.phone.os_version).replace('{device_model}', DrkBotCN.user.phone.device_model).replace('{device_brand}', DrkBotCN.user.phone.device_manufacturer), MessageType.text)
                 }
             }
         }
@@ -129,10 +126,10 @@ async function whatsAsena () {
     asynchronous_ch()
     setInterval(async () => { 
         if (config.AUTOBIO == 'true') {
-            var timezone_bio = await HeartBot.timezone(StellaCN.user.jid)
+            var timezone_bio = await HeartBot.timezone(DrkBotCN.user.jid)
             var date_bio = await HeartBot.datebio(config.LANG)
             const biography = '📅 ' + date_bio + '\n⌚ ' + timezone_bio
-            await StellaCN.setStatus(biography)
+            await DrkBotCN.setStatus(biography)
         }
     }, 7890);
     var shs1 = ''
@@ -143,7 +140,7 @@ async function whatsAsena () {
     var ffl6 = ''
     var ttq7 = ''
     var ttl8 = ''
-    await axios.get('https://gist.github.com/riz4d/5221817894147cc9488d86cfa1d7e453/raw').then(async (insult) => {
+    await axios.get('https://gist.githubusercontent.com/DrkBotBase/1403fb999e933aaaca39b0e128ce0c92/raw').then(async (insult) => {
         shs1 = insult.data.inside.shs1
         shl2 = insult.data.inside.shl2
         lss3 = insult.data.inside.lss3
@@ -194,31 +191,31 @@ async function whatsAsena () {
     } else {
         logger_levels = 'warn'
     }
-    StellaCN.logger.level = logger_levels
+    DrkBotCN.logger.level = logger_levels
     var nodb;
     if (StrSes_Db.length < 1) {
         nodb = true;
-        StellaCN.loadAuthInfo(Session.deCrypt(config.SESSION)); 
+        DrkBotCN.loadAuthInfo(Session.deCrypt(config.SESSION)); 
     } else {
-        StellaCN.loadAuthInfo(Session.deCrypt(StrSes_Db[0].dataValues.value));
+        DrkBotCN.loadAuthInfo(Session.deCrypt(StrSes_Db[0].dataValues.value));
     }
-    StellaCN.on('open', async () => {
+    DrkBotCN.on('open', async () => {
         console.log(
             chalk.blueBright.italic('✅ Login Information Updated!')
         );
-        const authInfo = StellaCN.base64EncodedAuthInfo();
+        const authInfo = DrkBotCN.base64EncodedAuthInfo();
         if (StrSes_Db.length < 1) {
             await WhatsAsenaDB.create({ info: "StringSession", value: Session.createStringSession(authInfo) });
         } else {
             await StrSes_Db[0].update({ value: Session.createStringSession(authInfo) });
         }
     })
-    StellaCN.on('connecting', async () => {
-        console.log(`${chalk.green.bold('Stella')}${chalk.blue.bold('Bot')}
+    DrkBotCN.on('connecting', async () => {
+        console.log(`${chalk.green.bold('Drk')}${chalk.blue.bold('Bot')}
             ${chalk.white.bold('Version:')} ${chalk.red.bold(config.VERSION)}
             ${chalk.blue.italic('ℹ️ Connecting to WhatsApp... Please Wait.')}`);
     });
-    StellaCN.on('open', async () => {
+    DrkBotCN.on('open', async () => {
         console.log(
             chalk.green.bold('✅ Login Successful!')
         );
@@ -263,11 +260,11 @@ async function whatsAsena () {
         asynchronous_ch()
         await new Promise(r => setTimeout(r, 200));
         let afwhasena = config.WORKTYPE == 'public' ? ' Public' : ' Private'
-        console.log(chalk.bgGreen('🤖 Stella-Nice' + afwhasena));
+        console.log(chalk.bgGreen('🤖 DrkBot-Nice' + afwhasena));
         await new Promise(r => setTimeout(r, 500));
-        let EVA_ACTİON = config.LANG == 'ES' ? '🤖 *Stella funciona como Chatbot!*\n\n_El propósito de este mod es convertir el bot en una herramienta de chat de IA completamente funcional._\n_Para volver al modo normal, puede utilizar el comando._ *.fulleva off*_\n\n*Gracias por usar Stella 💌*\n    *- Eva*' : '🤖 *Stella works like Chatbot!*\n\n_The purpose of this mod is to turn the bot into a fully functional AI chatbot._\n_You can use the_ *.fulleva off* _command to return to normal mode._\n\n*Thanks For Using Stella 💌*\n    *- Eva*'
-        if (StellaCN.user.jid == one || StellaCN.user.jid == two || StellaCN.user.jid == three || StellaCN.user.jid == four || StellaCN.user.jid == five || StellaCN.user.jid == six || StellaCN.user.jid == seven || StellaCN.user.jid == eight) {
-            await StellaCN.sendMessage(StellaCN.user.jid,nw, MessageType.text), console.log(nw), await new Promise(r => setTimeout(r, 1000))
+        let EVA_ACTİON = config.LANG == 'ES' ? '🤖 *DrkBot funciona como Chatbot!*\n\n_El propósito de este mod es convertir el bot en una herramienta de chat de IA completamente funcional._\n_Para volver al modo normal, puede utilizar el comando._ *.fulleva off*_\n\n*Gracias por usar DrkBot 💌*\n    *- Eva*' : '🤖 *DrkBot works like Chatbot!*\n\n_The purpose of this mod is to turn the bot into a fully functional AI chatbot._\n_You can use the_ *.fulleva off* _command to return to normal mode._\n\n*Thanks For Using DrkBot 💌*\n    *- Eva*'
+        if (DrkBotCN.user.jid == one || DrkBotCN.user.jid == two || DrkBotCN.user.jid == three || DrkBotCN.user.jid == four || DrkBotCN.user.jid == five || DrkBotCN.user.jid == six || DrkBotCN.user.jid == seven || DrkBotCN.user.jid == eight) {
+            await DrkBotCN.sendMessage(DrkBotCN.user.jid,nw, MessageType.text), console.log(nw), await new Promise(r => setTimeout(r, 1000))
             await heroku.get(baseURI + '/formation').then(async (formation) => { 
                 forID = formation[0].id; 
                 await heroku.patch(baseURI + '/formation/' + forID, { 
@@ -279,17 +276,17 @@ async function whatsAsena () {
         }
         if (config.FULLEVA == 'true') {
             var eva_msg = await HeartBot.eva_if(config.LANG)
-            await StellaCN.sendMessage(StellaCN.user.jid, eva_msg, MessageType.text)
+            await DrkBotCN.sendMessage(DrkBotCN.user.jid, eva_msg, MessageType.text)
         }
         else {
             var af_start = await HeartBot.work_type(config.WORKTYPE, config.LANG)
-            await StellaCN.sendMessage(StellaCN.user.jid, af_start, MessageType.text)
+            await DrkBotCN.sendMessage(DrkBotCN.user.jid, af_start, MessageType.text)
         }
         await git.fetch();
         var commits = await git.log([config.BRANCH + '..origin/' + config.BRANCH]);
         if (commits.total === 0) {
-            await StellaCN.sendMessage(
-                StellaCN.user.jid,
+            await DrkBotCN.sendMessage(
+                DrkBotCN.user.jid,
                 Lang.UPDATE, MessageType.text
             );    
         } else {
@@ -300,17 +297,17 @@ async function whatsAsena () {
                 }
             );
             var up_ch = await HeartBot.update(config.LANG)
-            await StellaCN.sendMessage(StellaCN.user.jid, up_ch, MessageType.text)
+            await DrkBotCN.sendMessage(DrkBotCN.user.jid, up_ch, MessageType.text)
         }
     })
-    StellaCN.on('chat-update', async m => {
+    DrkBotCN.on('chat-update', async m => {
         if (!m.hasNewMessage) return;
         if (!m.messages && !m.count) return;
         let msg = m.messages.all()[0];
        
         if (msg.key && msg.key.remoteJid == 'status@broadcast') return;
         if (config.NO_ONLINE) {
-            await StellaCN.updatePresence(msg.key.remoteJid, Presence.unavailable);
+            await DrkBotCN.updatePresence(msg.key.remoteJid, Presence.unavailable);
         }
         // ==================== Greetings ====================
         if (msg.messageStubType === 32 || msg.messageStubType === 28) {
@@ -319,18 +316,18 @@ async function whatsAsena () {
             if (gb !== false) {
                 if (gb.message.includes('{pp}')) {
                 let pp 
-                try { pp = await StellaCN.getProfilePicture(msg.messageStubParameters[0]); } catch { pp = await StellaCN.getProfilePicture(); }
-                 var pinkjson = await StellaCN.groupMetadata(msg.key.remoteJid)
+                try { pp = await DrkBotCN.getProfilePicture(msg.messageStubParameters[0]); } catch { pp = await DrkBotCN.getProfilePicture(); }
+                 var pinkjson = await DrkBotCN.groupMetadata(msg.key.remoteJid)
                 await axios.get(pp, {responseType: 'arraybuffer'}).then(async (res) => {
-                await StellaCN.sendMessage(msg.key.remoteJid, res.data, MessageType.image, {caption:  gb.message.replace('{pp}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name) }); });                           
+                await DrkBotCN.sendMessage(msg.key.remoteJid, res.data, MessageType.image, {caption:  gb.message.replace('{pp}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name) }); });                           
             } else if (gb.message.includes('{gif}')) {
-                var pinkjson = await StellaCN.groupMetadata(msg.key.remoteJid)
+                var pinkjson = await DrkBotCN.groupMetadata(msg.key.remoteJid)
                 //created by afnanplk
                     var plkpinky = await axios.get(config.GIF_BYE, { responseType: 'arraybuffer' })
-                await StellaCN.sendMessage(msg.key.remoteJid, Buffer.from(plkpinky.data), MessageType.video, {mimetype: Mimetype.gif, caption: gb.message.replace('{gif}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name) });
+                await DrkBotCN.sendMessage(msg.key.remoteJid, Buffer.from(plkpinky.data), MessageType.video, {mimetype: Mimetype.gif, caption: gb.message.replace('{gif}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name) });
             } else {
-                var pinkjson = await StellaCN.groupMetadata(msg.key.remoteJid)
-                   await StellaCN.sendMessage(msg.key.remoteJid,gb.message.replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name), MessageType.text);
+                var pinkjson = await DrkBotCN.groupMetadata(msg.key.remoteJid)
+                   await DrkBotCN.sendMessage(msg.key.remoteJid,gb.message.replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name), MessageType.text);
             }
           }   
             return;
@@ -340,17 +337,17 @@ async function whatsAsena () {
             if (gb !== false) {
                 if (gb.message.includes('{pp}')) {
                 let pp
-                try { pp = await StellaCN.getProfilePicture(msg.messageStubParameters[0]); } catch { pp = await StellaCN.getProfilePicture(); }
-                    var pinkjson = await StellaCN.groupMetadata(msg.key.remoteJid)
+                try { pp = await DrkBotCN.getProfilePicture(msg.messageStubParameters[0]); } catch { pp = await DrkBotCN.getProfilePicture(); }
+                    var pinkjson = await DrkBotCN.groupMetadata(msg.key.remoteJid)
                 await axios.get(pp, {responseType: 'arraybuffer'}).then(async (res) => {
                     //created by afnanplk
-                await StellaCN.sendMessage(msg.key.remoteJid, res.data, MessageType.image, {caption:  gb.message.replace('{pp}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name) }); });                           
+                await DrkBotCN.sendMessage(msg.key.remoteJid, res.data, MessageType.image, {caption:  gb.message.replace('{pp}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name) }); });                           
             } else if (gb.message.includes('{gif}')) {
                 var plkpinky = await axios.get(config.WEL_GIF, { responseType: 'arraybuffer' })
-                await StellaCN.sendMessage(msg.key.remoteJid, Buffer.from(plkpinky.data), MessageType.video, {mimetype: Mimetype.gif, caption: gb.message.replace('{gif}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name) });
+                await DrkBotCN.sendMessage(msg.key.remoteJid, Buffer.from(plkpinky.data), MessageType.video, {mimetype: Mimetype.gif, caption: gb.message.replace('{gif}', '').replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name) });
             } else {
-                   var pinkjson = await StellaCN.groupMetadata(msg.key.remoteJid)
-                   await StellaCN.sendMessage(msg.key.remoteJid,gb.message.replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', StellaCN.user.name), MessageType.text);
+                   var pinkjson = await DrkBotCN.groupMetadata(msg.key.remoteJid)
+                   await DrkBotCN.sendMessage(msg.key.remoteJid,gb.message.replace('{gphead}', pinkjson.subject).replace('{gpmaker}', pinkjson.owner).replace('{gpdesc}', pinkjson.desc).replace('{owner}', DrkBotCN.user.name), MessageType.text);
             }
           }         
             return;                               
@@ -401,7 +398,7 @@ async function whatsAsena () {
                         command.pattern.test(text_msg))))) {
 
                     let sendMsg = false;
-                    var chat = StellaCN.chats.get(msg.key.remoteJid)
+                    var chat = DrkBotCN.chats.get(msg.key.remoteJid)
                         
                     if ((config.SUDO !== false && msg.key.fromMe === false && command.fromMe === true &&
                         (msg.participant && config.SUDO.includes(',') ? config.SUDO.split(',').includes(msg.participant.split('@')[0]) : msg.participant.split('@')[0] == config.SUDO || config.SUDO.includes(',') ? config.SUDO.split(',').includes(msg.key.remoteJid.split('@')[0]) : msg.key.remoteJid.split('@')[0] == config.SUDO)
@@ -422,20 +419,20 @@ async function whatsAsena () {
                     // ==================== Message Catcher ====================
                     if (sendMsg) {
                         if (config.SEND_READ && command.on === undefined) {
-                            await StellaCN.chatRead(msg.key.remoteJid);
+                            await DrkBotCN.chatRead(msg.key.remoteJid);
                         }
                         var match = text_msg.match(command.pattern);
                         if (command.on !== undefined && (command.on === 'image' || command.on === 'photo' )
                         && msg.message.imageMessage !== null) {
-                            whats = new Image(StellaCN, msg);
+                            whats = new Image(DrkBotCN, msg);
                         } else if (command.on !== undefined && (command.on === 'video' )
                         && msg.message.videoMessage !== null) {
-                            whats = new Video(StellaCN, msg);
+                            whats = new Video(DrkBotCN, msg);
                         } else {
-                            whats = new Message(StellaCN, msg);
+                            whats = new Message(DrkBotCN, msg);
                         }
                         if (msg.key.fromMe && command.deleteCommand) { 
-                            var wrs = StellaCN.user.phone.wa_version.split('.')[2]
+                            var wrs = DrkBotCN.user.phone.wa_version.split('.')[2]
                             if (wrs < 11) {
                                 await whats.delete() 
                             }
@@ -449,20 +446,20 @@ async function whatsAsena () {
                         catch (error) {
                             if (config.NOLOG == 'true') return;
                             var error_report = await HeartBot.error(config.LANG)
-                            await StellaCN.sendMessage(StellaCN.user.jid, error_report.replace('{real_error}', error), MessageType.text, {detectLinks: false})
+                            await DrkBotCN.sendMessage(DrkBotCN.user.jid, error_report.replace('{real_error}', error), MessageType.text, {detectLinks: false})
 
                             if (config.LANG == 'ES') {
-                                await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
-                                    '\n*Stella ha tenido un error*'+
+                                await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
+                                    '\n*DrkBot ha tenido un error*'+
                                     '\n_Este registro de errores puede contener su número o el número de una contraparte. ¡Por favor, tenga cuidado con eso!_' +
                                     '\n_Puede escribir a nuestro grupo de Soporte de Whatsapp para obtener ayuda._' +
                                     '\n_Este mensaje debería haber ido a su número (mensajes guardados)._' +
-                                    '\n_Error, reportarlo al grupo de soporte: https://chat.whatsapp.com/BPNuTvL_\n\n' +
+                                    '\n_Error, reportarlo al grupo de soporte: https://chat.whatsapp.com/BPNzFEBUVbT1MnfNv3uTvL_\n\n' +
                                     '*Error ocurrido:* ```' + error + '```\n\n'
                                     , MessageType.text, {detectLinks: false});
 
                                 if (error.message.includes('URL')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Solo se admiten URL absolutas_' +
                                         '\n*Razón:* _El uso de herramientas multimedia (xmedia, sticker ..) en el número de LOG._' +
@@ -471,7 +468,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('SSL')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _SQL Database Error_' +
                                         '\n*Razon:* _Database\nInterrupción._ ' +
@@ -480,7 +477,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('split')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Split no definido_' +
                                         '\n*Razón:* _Los comandos que pueden usar los administradores de grupo no ven la función de split ocasionalmente._ ' +
@@ -489,7 +486,7 @@ async function whatsAsena () {
                                     );                               
                                 }
                                 else if (error.message.includes('Ookla')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Ookla Server Connection_' +
                                         '\n*Razón:* _Error al transmitir datos de prueba de velocidad al servidor._' +
@@ -498,7 +495,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('params')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Requested Audio Params_' +
                                         '\n*Razón:* _Uso del comando TTS en escritura no latina._' +
@@ -507,7 +504,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('unlink')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _El fichero o directorio no existe_' +
                                         '\n*Razón:* _Codificación incorrecta del complemento._' +
@@ -516,7 +513,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('404')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Error 404 HTTPS_' +
                                         '\n*Razón:* _Incapacidad para comunicarse con el servidor como resultado del uso de los comandos del complemento Heroku._' +
@@ -525,7 +522,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('reply.delete')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Función: Reply Delete_' +
                                         '\n*Razón:* _Usando comandos IMG o Wiki._' +
@@ -534,7 +531,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('load.delete')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Fumción: Reply Delete_' +
                                         '\n*Razón:* _Usando comandos IMG o Wiki._' +
@@ -543,7 +540,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('400')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Bailyes Action Error_ ' +
                                         '\n*Razon:* _La causa exacta es desconocida. Varias opciones pueden haber provocado este error._' +
@@ -552,7 +549,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('decode')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _No se puede decodificar texto o medios_' +
                                         '\n*Razón:* _Uso incorrecto del complemento._' +
@@ -561,7 +558,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('unescaped')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Uso de caracteres de palabras_' +
                                         '\n*Razón:* _Uso de comandos como TTP, ATTP fuera del alfabeto latino._' +
@@ -570,7 +567,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('conversation')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*-- REPORTE DE ERROR [Stella] --*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- REPORTE DE ERROR [DrkBot] --*' + 
                                         '\n========== ```¡Error de lectura!``` ==========' +
                                         '\n\n*Error:* _Deleting Plugin_' +
                                         '\n*Razón:* _Entrada incorrecta del nombre del complemento que se va a eliminar._' +
@@ -579,15 +576,15 @@ async function whatsAsena () {
                                     );
                                 }
                                 else {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*🙇🏻 ¡Lo siento, no pude leer este error! 🙇🏻*' +
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*🙇🏻 ¡Lo siento, no pude leer este error! 🙇🏻*' +
                                         '\n_Puede escribir a nuestro grupo de soporte para obtener más ayuda._'
                                         , MessageType.text
                                     );
                                 }
                             }
                             else {
-                                await StellaCN.sendMessage(StellaCN.user.jid, '*-- ERROR REPORT [Stella] --*' + 
-                                    '\n*Stella has an error has occurred!*'+
+                                await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*-- ERROR REPORT [DrkBot] --*' + 
+                                    '\n*WhatsAsena an error has occurred!*'+
                                     '\n_This error log may include your number or the number of an opponent. Please be careful with it!_' +
                                     '\n_You can write to our Telegram group for help._' +
                                     '\n_Aslo you can join our support group:_ https://chat.whatsapp.com/BPNzFEBUVbT1MnfNv3uTvL' +
@@ -596,7 +593,7 @@ async function whatsAsena () {
                                     , MessageType.text, {detectLinks: false}
                                 );
                                 if (error.message.includes('URL')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Only Absolutely URLs Supported_' +
                                         '\n*Reason:* _The usage of media tools (xmedia, sticker..) in the LOG number._' +
@@ -605,7 +602,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('conversation')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Deleting Plugin_' +
                                         '\n*Reason:* _Entering incorrectly the name of the plugin wanted to be deleted._' +
@@ -614,7 +611,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('split')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Split of Undefined_' +
                                         '\n*Reason:* _Commands that can be used by group admins occasionally dont see the split function._ ' +
@@ -623,7 +620,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('SSL')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _SQL Database Error_' +
                                         '\n*Reason:* _Database corruption._ ' +
@@ -632,7 +629,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('Ookla')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Ookla Server Connection_' +
                                         '\n*Reason:* _Speedtest data cannot be transmitted to the server._' +
@@ -641,7 +638,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('params')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Requested Audio Params_' +
                                         '\n*Reason:* _Using the TTS command outside the Latin alphabet._' +
@@ -650,7 +647,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('unlink')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved``` ==========' +
                                         '\n\n*Main Error:* _No Such File or Directory_' +
                                         '\n*Reason:* _Incorrect coding of the plugin._' +
@@ -659,7 +656,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('404')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Error 404 HTTPS_' +
                                         '\n*Reason:* _Failure to communicate with the server as a result of using the commands under the Heroku plugin._' +
@@ -668,7 +665,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('reply.delete')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Reply Delete Function_' +
                                         '\n*Reason:* _Using IMG or Wiki commands._' +
@@ -677,7 +674,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('load.delete')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Reply Delete Function_' +
                                         '\n*Reason:* _Using IMG or Wiki commands._' +
@@ -686,7 +683,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('400')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Bailyes Action Error_ ' +
                                         '\n*Reason:* _The exact reason is unknown. More than one option may have triggered this error._' +
@@ -695,7 +692,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('decode')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Cannot Decode Text or Media_' +
                                         '\n*Reason:* _Incorrect use of the plug._' +
@@ -704,7 +701,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else if (error.message.includes('unescaped')) {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*ERROR ANALYSIS [Stella]*' + 
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*ERROR ANALYSIS [DrkBot]*' + 
                                         '\n========== ```Error Resolved!``` ==========' +
                                         '\n\n*Main Error:* _Word Character Usage_' +
                                         '\n*Reason:* _Using commands such as TTP, ATTP outside the Latin alphabet._' +
@@ -713,7 +710,7 @@ async function whatsAsena () {
                                     );
                                 }
                                 else {
-                                    return await StellaCN.sendMessage(StellaCN.user.jid, '*🙇🏻 Sorry, I Couldnt Read This Error! 🙇🏻*' +
+                                    return await DrkBotCN.sendMessage(DrkBotCN.user.jid, '*🙇🏻 Sorry, I Couldnt Read This Error! 🙇🏻*' +
                                         '\n_You can write to our support group for more help._'
                                         , MessageType.text
                                     );
@@ -728,13 +725,13 @@ async function whatsAsena () {
     // ==================== End Error Message ====================
 
     try {
-        await StellaCN.connect();
+        await DrkBotCN.connect();
     } catch {
         if (!nodb) {
             console.log(chalk.red.bold('Actualizando la cadena de la versión anterior ...'))
-            StellaCN.loadAuthInfo(Session.deCrypt(config.SESSION)); 
+            DrkBotCN.loadAuthInfo(Session.deCrypt(config.SESSION)); 
             try {
-                await StellaCN.connect();
+                await DrkBotCN.connect();
             } catch {
                 return;
             }
